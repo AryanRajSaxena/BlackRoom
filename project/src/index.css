@@ -1,0 +1,203 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Safe area support for mobile devices */
+@supports (padding: max(0px)) {
+  .safe-area-pb {
+    padding-bottom: max(env(safe-area-inset-bottom), 1rem);
+  }
+  
+  .safe-area-pt {
+    padding-top: max(env(safe-area-inset-top), 1rem);
+  }
+}
+
+/* Mobile-specific optimizations */
+@media (max-width: 768px) {
+  /* Improve touch targets */
+  button, a, input, select {
+    min-height: 44px;
+  }
+  
+  /* Optimize text for mobile */
+  body {
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+  }
+  
+  /* Smooth scrolling on mobile */
+  html {
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  /* Prevent zoom on input focus */
+  input, select, textarea {
+    font-size: 16px;
+  }
+}
+
+/* Line clamp utility */
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.line-clamp-3 {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Hide scrollbar but keep functionality */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+/* Custom scrollbar for mobile */
+@media (max-width: 768px) {
+  ::-webkit-scrollbar {
+    width: 4px;
+  }
+  
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 2px;
+  }
+  
+  ::-webkit-scrollbar-thumb:hover {
+    background: rgba(0, 0, 0, 0.3);
+  }
+}
+
+/* Mobile-specific animations */
+@media (max-width: 768px) {
+  .animate-bounce-mobile {
+    animation: bounce-mobile 1s infinite;
+  }
+  
+  @keyframes bounce-mobile {
+    0%, 100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-10px);
+    }
+  }
+}
+
+/* Backdrop blur fallback for older browsers */
+@supports not (backdrop-filter: blur(10px)) {
+  .backdrop-blur-sm {
+    background-color: rgba(255, 255, 255, 0.9);
+  }
+  
+  .dark .backdrop-blur-sm {
+    background-color: rgba(15, 23, 42, 0.9);
+  }
+}
+
+/* Mobile-optimized gradients */
+@media (max-width: 768px) {
+  .mobile-gradient-performance {
+    background-attachment: scroll;
+  }
+}
+
+/* Prevent horizontal scroll on mobile */
+@media (max-width: 768px) {
+  body {
+    overflow-x: hidden;
+  }
+}
+
+/* Mobile-specific focus styles */
+@media (max-width: 768px) {
+  button:focus,
+  input:focus,
+  select:focus,
+  textarea:focus {
+    outline: 2px solid #3b82f6;
+    outline-offset: 2px;
+  }
+}
+
+/* Smooth horizontal scrolling */
+.horizontal-scroll {
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Card hover effects for mobile */
+@media (max-width: 768px) {
+  .mobile-card-hover:active {
+    transform: scale(0.98);
+    transition: transform 0.1s ease-out;
+  }
+}
+
+/* Improved touch feedback */
+@media (hover: none) and (pointer: coarse) {
+  .touch-feedback:active {
+    background-color: rgba(0, 0, 0, 0.1);
+    transform: scale(0.98);
+  }
+  
+  .dark .touch-feedback:active {
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+}
+
+/* Loading skeleton animations */
+.skeleton {
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: loading 1.5s infinite;
+}
+
+.dark .skeleton {
+  background: linear-gradient(90deg, #374151 25%, #4b5563 50%, #374151 75%);
+  background-size: 200% 100%;
+}
+
+@keyframes loading {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+/* Enhanced mobile typography */
+@media (max-width: 768px) {
+  .mobile-heading {
+    font-size: 1.5rem;
+    line-height: 1.3;
+    font-weight: 700;
+  }
+  
+  .mobile-subheading {
+    font-size: 1.125rem;
+    line-height: 1.4;
+    font-weight: 600;
+  }
+  
+  .mobile-body {
+    font-size: 0.875rem;
+    line-height: 1.5;
+  }
+}
