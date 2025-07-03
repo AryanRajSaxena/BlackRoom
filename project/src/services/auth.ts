@@ -123,10 +123,17 @@ export const createUserProfile = async (userId: string, name: string, phone?: st
         id: userId,
         name: name || 'User',
         phone: phone || null,
-        balance: isAdmin ? 100000 : 100, // Updated: 100 tokens for new users, 100,000 for admin
+        balance: isAdmin ? 100000 : 100, // 100 tokens for new users, 100,000 for admin
         total_bets: 0,
         total_winnings: 0,
-        is_admin: isAdmin
+        is_admin: isAdmin,
+        current_streak: 0,
+        longest_streak: 0,
+        total_points: 0,
+        rank_position: 0,
+        tier: 'Bronze',
+        achievements: [],
+        is_verified: false
       })
       .select()
       .single();
@@ -134,6 +141,16 @@ export const createUserProfile = async (userId: string, name: string, phone?: st
     if (error) {
       console.error('Error creating user profile:', error);
       throw error;
+    }
+    
+    // Update leaderboard data for new user
+    try {
+      const { updateUserPoints, updateUserStreak } = await import('./leaderboard');
+      await updateUserPoints(userId);
+      await updateUserStreak(userId);
+    } catch (leaderboardError) {
+      console.warn('Failed to update leaderboard data for new user:', leaderboardError);
+      // Don't throw error as user creation was successful
     }
     
     return data;
@@ -198,7 +215,14 @@ export const ensureAdminUser = async () => {
         balance: 100000,
         total_bets: 0,
         total_winnings: 0,
-        is_admin: true
+        is_admin: true,
+        current_streak: 0,
+        longest_streak: 0,
+        total_points: 0,
+        rank_position: 0,
+        tier: 'Bronze',
+        achievements: [],
+        is_verified: false
       })
       .select()
       .single();

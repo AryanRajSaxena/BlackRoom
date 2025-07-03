@@ -67,6 +67,7 @@ export const MobileLayout: React.FC<MobileLayoutProps> = ({
           <MobileDashboard
             user={currentUser}
             userBets={userBets}
+            events={events}
             onNavigate={handleNavigate}
             totalPool={totalPool}
             totalEvents={totalEvents}
