@@ -20,7 +20,6 @@ import { getCurrentUser, onAuthStateChange, signOut, getUserProfile, createUserP
 import { fetchEvents, createEvent } from './services/events';
 import { placeBet } from './services/betting';
 import { supabase } from './lib/supabase';
-import { getLocalStorageItem, setLocalStorageItem } from './utils/safeLocalStorage';
 
 // For smooth tab transitions
 import { CSSTransition, SwitchTransition } from 'react-transition-group';
@@ -57,28 +56,32 @@ function AppContent() {
   const deviceInfo = useDeviceDetection();
 
   // Track shown wins using localStorage to persist across sessions
-const [shownWins, setShownWins] = useState<Set<string>>(() => {
-  try {
-    const stored = getLocalStorageItem('shownWins');
-    if (!stored) return new Set();
+  const [shownWins, setShownWins] = useState<Set<string>>(() => {
+    try {
+      const stored = localStorage.getItem('shownWins');
+if (!stored) return new Set();
 
-    const parsed = JSON.parse(stored);
-    if (Array.isArray(parsed)) {
-      return new Set(parsed);
-    }
-  } catch (e) {
-    console.warn('Failed to parse shownWins from localStorage', e);
+try {
+  const parsed = JSON.parse(stored);
+  if (Array.isArray(parsed)) {
+    return new Set(parsed);
   }
-  return new Set();
-});
+} catch (e) {
+  console.warn('Failed to parse shownWins from localStorage', e);
+}
+return new Set();
 
+    } catch {
+      return new Set();
+    }
+  });
 
   const categories = ['All', 'Weather', 'Cryptocurrency', 'Sports', 'Technology', 'Finance', 'Politics', 'Entertainment'];
 
   // Save shown wins to localStorage whenever it changes
   useEffect(() => {
     try {
-      setLocalStorageItem('shownWins', JSON.stringify(Array.from(shownWins)));
+      localStorage.setItem('shownWins', JSON.stringify(Array.from(shownWins)));
     } catch (error) {
       console.error('Failed to save shown wins to localStorage:', error);
     }
