@@ -18,11 +18,19 @@ export const useTheme = () => {
 export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [isDarkMode, setIsDarkMode] = useState(() => {
     // Check localStorage first, then system preference
-    const saved = localStorage.getItem('theme');
-    if (saved) {
-      return saved === 'dark';
-    }
-    return window.matchMedia('(prefers-color-scheme: dark)').matches;
+const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+let savedTheme: string | null = null;
+try {
+  if (typeof localStorage !== 'undefined') {
+    savedTheme = localStorage.getItem('theme');
+  }
+} catch (e) {
+  console.warn('Failed to access localStorage for theme:', e);
+}
+
+return savedTheme === 'dark' ? true : savedTheme === 'light' ? false : prefersDark;
+
   });
 
   useEffect(() => {
