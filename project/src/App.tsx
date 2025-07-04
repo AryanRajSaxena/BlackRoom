@@ -20,6 +20,7 @@ import { getCurrentUser, onAuthStateChange, signOut, getUserProfile, createUserP
 import { fetchEvents, createEvent } from './services/events';
 import { placeBet } from './services/betting';
 import { supabase } from './lib/supabase';
+import { getLocalStorageItem, setLocalStorageItem } from './utils/safeLocalStorage';
 
 // For smooth tab transitions
 import { CSSTransition, SwitchTransition } from 'react-transition-group';
@@ -58,7 +59,7 @@ function AppContent() {
   // Track shown wins using localStorage to persist across sessions
 const [shownWins, setShownWins] = useState<Set<string>>(() => {
   try {
-    const stored = localStorage.getItem('shownWins');
+    const stored = getLocalStorageItem('shownWins');
     if (!stored) return new Set();
 
     const parsed = JSON.parse(stored);
@@ -77,7 +78,7 @@ const [shownWins, setShownWins] = useState<Set<string>>(() => {
   // Save shown wins to localStorage whenever it changes
   useEffect(() => {
     try {
-      localStorage.setItem('shownWins', JSON.stringify(Array.from(shownWins)));
+      setLocalStorageItem('shownWins', JSON.stringify(Array.from(shownWins)));
     } catch (error) {
       console.error('Failed to save shown wins to localStorage:', error);
     }

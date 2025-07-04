@@ -1,4 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
+import { getLocalStorageItem, setLocalStorageItem } from '../utils/safeLocalStorage';
+
 
 interface ThemeContextType {
   isDarkMode: boolean;
@@ -23,7 +25,7 @@ const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
 let savedTheme: string | null = null;
 try {
   if (typeof localStorage !== 'undefined') {
-    savedTheme = localStorage.getItem('theme');
+    savedTheme = getLocalStorageItem('theme');
   }
 } catch (e) {
   console.warn('Failed to access localStorage for theme:', e);
@@ -35,7 +37,7 @@ return savedTheme === 'dark' ? true : savedTheme === 'light' ? false : prefersDa
 
   useEffect(() => {
     // Save to localStorage
-    localStorage.setItem('theme', isDarkMode ? 'dark' : 'light');
+    setLocalStorageItem('theme', isDarkMode ? 'dark' : 'light');
     
     // Apply theme to document
     if (isDarkMode) {
