@@ -56,14 +56,21 @@ function AppContent() {
   const deviceInfo = useDeviceDetection();
 
   // Track shown wins using localStorage to persist across sessions
-  const [shownWins, setShownWins] = useState<Set<string>>(() => {
-    try {
-      const stored = localStorage.getItem('shownWins');
-      return stored ? new Set(JSON.parse(stored)) : new Set();
-    } catch {
-      return new Set();
+const [shownWins, setShownWins] = useState<Set<string>>(() => {
+  try {
+    const stored = localStorage.getItem('shownWins');
+    if (!stored) return new Set();
+
+    const parsed = JSON.parse(stored);
+    if (Array.isArray(parsed)) {
+      return new Set(parsed);
     }
-  });
+  } catch (e) {
+    console.warn('Failed to parse shownWins from localStorage', e);
+  }
+  return new Set();
+});
+
 
   const categories = ['All', 'Weather', 'Cryptocurrency', 'Sports', 'Technology', 'Finance', 'Politics', 'Entertainment'];
 
