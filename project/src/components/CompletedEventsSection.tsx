@@ -6,16 +6,14 @@ interface CompletedEventsSectionProps {
   resolvedEvents: Event[];
   userBets: Bet[];
   userBetsByEvent: { [eventId: string]: Bet };
-  onEventClick: (event: Event) => void;
+  // onEventClick: (event: Event) => void;
   isAdmin?: boolean;
 }
 
 export const CompletedEventsSection: React.FC<CompletedEventsSectionProps> = ({
   resolvedEvents,
-  userBets,
   userBetsByEvent,
   // onEventClick,
-  isAdmin = false
 }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [filterType, setFilterType] = useState<'all' | 'won' | 'lost' | 'no_bet'>('all');
