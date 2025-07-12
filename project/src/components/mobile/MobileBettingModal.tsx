@@ -273,7 +273,7 @@ export const MobileBettingModal: React.FC<MobileBettingModalProps> = ({
               </div>
             ) : (
               <div className="p-4">
-                <MobileLiveAnalytics event={event} />
+                <MobileLiveAnalytics eventId={event.id} />
               </div>
             )}
           </div>
