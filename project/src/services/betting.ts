@@ -3,6 +3,7 @@
  * Fixed to use 85% of total pool for odds calculations
  */
 import { supabase } from '../lib/supabase';
+import { triggerAnalyticsUpdate } from './analyticsService';
 import { Event, BetOption, Bet } from '../types';
 
 export interface BetCalculation {
